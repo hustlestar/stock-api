@@ -2,6 +2,8 @@ import json
 import urllib2
 from datetime import datetime
 
+import requests
+
 from stock import Stock
 from stock_day import DailyData
 from stock_list import StockList
@@ -14,9 +16,10 @@ def get_data(ticker, api_key, file_format='csv'):
           "symbol={0}&".format(ticker) + \
           "datatype={0}&".format(file_format) + \
           "apikey={0}".format(api_key)
-    response = urllib2.urlopen(url)
-
-    html = response.read()
+    #response = urllib2.urlopen(url)
+    response = requests.get(url)
+    #html = response.read()
+    html = response.content
     # print html
     return html
 
@@ -73,5 +76,5 @@ def generate_reports(file_list, api_key):
 
 
 if __name__ == '__main__':
-    file_list = ['healthcare_under_5.txt']
+    file_list = ['services_under_5.txt']
     generate_reports(file_list, 'RWOH7RVGZIFSZK4X')

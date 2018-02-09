@@ -1,6 +1,4 @@
-from main import get_data, parse_stock_json
 from no_data_exception import NoDataException
-
 
 class StockList:
     def __init__(self, tickers, api_key):
@@ -9,6 +7,7 @@ class StockList:
         self.stocks = []
 
     def analyze_all_stocks(self):
+        from main import get_data, parse_stock_json
         for t in self.tickers:
             stock_data = get_data(t, api_key=self.api_key, file_format='json')
             try:
