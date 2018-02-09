@@ -68,13 +68,24 @@ def generate_reports(file_list, api_key):
         stock_list = StockList(tickers, api_key)
         stock_list.analyze_all_stocks()
         interesting_stocks = stock_list.print_only_interesting(number_of_volume_spikes=3, max_day_range=0.2)
-        with open(f.replace('.txt', '_' + datetime.now().strftime("%Y-%m-%d") + '.txt'), 'w') as out:
+        with open('..\\history\\' + f.replace('.txt', '_' + datetime.now().strftime("%Y-%m-%d") + '.txt'), 'w') as out:
             for s in interesting_stocks:
                 out.write(str(s))
         for s in interesting_stocks:
             print s.symbol
 
 
+def read_properties(rel_file_path):
+    props = {}
+    with open(rel_file_path, 'r') as property_file:
+        lines = property_file.readlines()
+    for line in lines:
+        k, v = line.split('=')
+        props[k] = v
+    return props
+
 if __name__ == '__main__':
-    file_list = ['services_under_5.txt']
-    generate_reports(file_list, 'RWOH7RVGZIFSZK4X')
+    file_list = ['..\\sectors_tickers\\services_under_5.txt']
+    props = read_properties('..\\secrets\\credentials.properties')
+    print  props.get('api.key')
+    generate_reports(file_list, props.get('api.key'))
