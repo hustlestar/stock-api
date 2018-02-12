@@ -1,7 +1,7 @@
 import json
 import urllib2
 from datetime import datetime
-
+import os
 import requests
 
 from stock import Stock
@@ -10,7 +10,7 @@ from stock_list import StockList
 from no_data_exception import NoDataException
 
 
-def get_data(ticker, api_key, file_format='csv'):
+def get_data(ticker, api_key, file_format='json'):
     url = "https://www.alphavantage.co/query?" + \
           "function=TIME_SERIES_DAILY&" + \
           "symbol={0}&".format(ticker) + \
@@ -62,13 +62,13 @@ def parse_tickers(file_name):
     return tickers
 
 
-def generate_reports(file_list, api_key):
+def generate_reports(file_list, api_key, file_prefix):
     for f in file_list:
         tickers = parse_tickers(f)
         stock_list = StockList(tickers, api_key)
         stock_list.analyze_all_stocks()
         interesting_stocks = stock_list.print_only_interesting(number_of_volume_spikes=3, max_day_range=0.2)
-        with open('..\\history\\' + f.replace('.txt', '_' + datetime.now().strftime("%Y-%m-%d") + '.txt'), 'w') as out:
+        with open(f.replace(file_prefix, '..\\history\\').replace('.txt', '_' + datetime.now().strftime("%Y-%m-%d") + '.txt'), 'w') as out:
             for s in interesting_stocks:
                 out.write(str(s))
         for s in interesting_stocks:
@@ -85,7 +85,8 @@ def read_properties(rel_file_path):
     return props
 
 if __name__ == '__main__':
-    file_list = ['..\\sectors_tickers\\services_under_5.txt']
+    prefix = '..\\tickers\\under_5\\'
+    file_list = [prefix + l for l in os.listdir(prefix)]
     props = read_properties('..\\secrets\\credentials.properties')
     print  props.get('api.key')
-    generate_reports(file_list, props.get('api.key'))
+    generate_reports(file_list, props.get('api.key'), prefix)
