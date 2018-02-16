@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class Stock(object):
+class StockRaw(object):
     def __init__(self, symbol, daily_data):
         self.symbol = symbol
         self.daily_data = daily_data
@@ -66,7 +66,7 @@ class Stock(object):
         self.change_for_period = change_
         self.max_day_range = max_day_range
 
-    def perfom_full_analysis(self):
+    def _perfom_full_analysis(self):
         self.total_vol()
         self.avg_vol()
         self.calculate_limits()
