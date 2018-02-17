@@ -19,6 +19,10 @@ def generate_reports(file_list, props, file_prefix):
         for s in interesting_stocks:
             print s.symbol
 
+def test_report(tickers, props):
+    stock_list = StockList(tickers, props)
+    for s in stock_list.stocks:
+        print s
 
 def read_properties(rel_file_path):
     props = {}
@@ -33,4 +37,5 @@ if __name__ == '__main__':
     prefix = '..\\tickers\\under_5\\'
     file_list = [prefix + l for l in os.listdir(prefix)]
     props = read_properties('..\\secrets\\credentials.properties')
-    generate_reports(file_list, props, prefix)
+    #generate_reports(file_list, props, prefix)
+    test_report(['IBM'], props)

@@ -5,7 +5,7 @@ from api.entity.stock_day import DailyData
 from api.etl.transform.no_data_exception import NoDataException
 
 
-def parse_json_to_stock(json_string):
+def parse_alpha_vantage_json_to_stock(json_string):
     json_map = json.loads(json_string)
     try:
         meta_data_map = json_map[u'Meta Data']

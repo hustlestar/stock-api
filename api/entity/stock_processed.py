@@ -1,2 +1,50 @@
 class StockProcessed:
-    pass
+    def __init__(self, stock_raw):
+        self.stock_raw = stock_raw
+        self.spike_multipliers_list = [3, 4, 5, 10]
+        self.vol_spikes_list = []
+        self.total_vol = 0
+        self.max_price = 0
+        self.min_price = 100000
+        self.max_positive_day_change = 0
+        self.max_negative_day_change = 100000
+        self.max_day_range = 0
+        self.change_for_period = 0
+        self.avg_volume = 0
+        self.process_raw_stock()
+
+    def __str__(self):
+        return str(self.stock_raw) + '\n' \
+               + str(self.min_price) + '\n' \
+               + str(self.max_price) + '\n' \
+               + str(self.change_for_period) + '\n' \
+               + "{0:.2f}%".format(self.change_percent)
+
+    def process_raw_stock(self):
+        self.change_for_period = self.stock_raw.daily_data[-1].open_ - self.stock_raw.daily_data[0].close_
+        self.change_percent = self.change_for_period / self.stock_raw.daily_data[-1].open_ * 100
+        for day in self.stock_raw.daily_data:
+            self.total_vol += day.volume_
+            if day.high_ > self.max_price:
+                self.max_price = day.high_
+            if day.low_ < self.min_price:
+                self.min_price = day.low_
+            if day.high_ - day.low_ > self.max_day_range:
+                self.max_day_range = day.high_ - day.low_
+            if day.close_ - day.open_ > self.max_positive_day_change:
+                self.max_positive_day_change = day.close_ - day.open_
+            elif day.close_ - day.open_ < self.max_negative_day_change:
+                self.max_negative_day_change = day.close_ - day.open_
+
+        self.avg_vol = self.total_vol / len(self.stock_raw.daily_data)
+        self.vol_spikes_list = self.count_vol_spikes(self.stock_raw.daily_data, self.avg_vol,
+                                                     self.spike_multipliers_list)
+        print str(self.vol_spikes_list)
+
+    def count_vol_spikes(self, daily_data, avg_vol, spike_multipliers_list):
+        number_of_volume_spikes = [0 for m in spike_multipliers_list]
+        for day in daily_data:
+            for i, mult in enumerate(spike_multipliers_list):
+                if day.volume_ > avg_vol * mult:
+                    number_of_volume_spikes[i] += 1
+        return number_of_volume_spikes

@@ -1,7 +1,7 @@
 import requests
 
 # TODO: Make a class
-def get_data_via_http(ticker, props):
+def get_data_alpha_vantage(ticker, props):
     url = "https://www.alphavantage.co/query?" + \
           "function=TIME_SERIES_DAILY&" + \
           "symbol={0}&".format(ticker) + \
