@@ -1,40 +1,46 @@
 import mysql.connector as connector
 
+import api.etl.extract.data_source
+
+
 class Connection(object):
-    def __init__(self):
-        pass
+    def __init__(self, props):
+        self.connection = self._get_connection(props)
+        self.cursor = self._get_cursor()
 
-def get_connection(props):
-    return connector.connect(user=props.get('db.user'),
-                            password=props.get('db.password'),
-                            host=props.get('db.host'),
-                            port=props.get('db.port'),
-                            database=props.get('db.database')).cursor()
+    def _get_connection(self, props):
+        return connector.connect(user=props.get('db.user'),
+                                 password=props.get('db.password'),
+                                 host=props.get('db.host'),
+                                 port=int(props.get('db.port')),
+                                 database=props.get('db.database'))
 
-def insert(cursor, stmt, **args):
-    cursor.execute(
-        """INSERT INTO stockdb.stock_history
-        (SH_TICKER,
-        SH_DATE,
-        SH_OPEN,
-        SH_HI,
-        SH_LO,
-        SH_CLOSE,
-        SH_VOL)
-        VALUES
-        (%s, %s, %s, %s, %s, %s, %s);""",
-        (stock.symbol, last_day.date, last_day.open_, last_day.high_, last_day.low_, last_day.close_, last_day.volume_))
-    pass
+    def _get_cursor(self):
+        return self.connection.cursor()
+
+    def commit(self):
+        self.connection.commit()
+
+    def close_connection(self):
+        self.connection.commit()
+        self.cursor.close()
+        self.connection.close()
+
+    def insert(self, table_name, *args):
+        stmt = 'INSERT INTO {0} VALUES ('.format(table_name)
+        for val in args:
+            if isinstance(val, unicode):
+                stmt = stmt + "'" + str(val) + "', "
+            else:
+                stmt = stmt + str(val) + ", "
+        stmt = stmt[:-2] + ');'
+        print stmt
+        self.cursor.execute(stmt)
+        self.commit()
+
 
 if __name__ == '__main__':
     import api.main
 
-    stock = api.main.parse_stock_json(api.main.get_data('AAPL', 'RWOH7RVGZIFSZK4X'))
-    last_day = stock.daily_data[-1]
-
-
-
-
-    cnx.commit()
-    cursor.close()
-    cnx.close()
+    stock = api.main.parse_stock_json(api.etl.extract.data_source.get_data_alpha_vantage('AAPL', 'RWOH7RVGZIFSZK4X'))
+    last_day = stock.daily_data[0]
