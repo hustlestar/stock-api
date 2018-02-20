@@ -13,3 +13,10 @@ def get_data_alpha_vantage(ticker, props):
     html = response.content
     # print html
     return html
+
+
+def read_transaction_log(file_path):
+    with open(file_path, 'r') as log:
+        line_list = log.readlines()
+
+    return line_list

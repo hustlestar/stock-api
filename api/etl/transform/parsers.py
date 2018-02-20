@@ -2,6 +2,7 @@ import json
 
 from api.entity.stock_raw import StockRaw
 from api.entity.stock_day import DailyData
+from api.entity.transaction_raw import TransactionRaw
 from api.etl.transform.no_data_exception import NoDataException
 
 
@@ -43,3 +44,7 @@ def get_ticker_list(file_name):
             ar = l.split(' ')
             tickers += [a for a in ar if len(a) > 0]
     return tickers
+
+def parse_line_to_transaction(line):
+    arr = line.split(' ')
+    return TransactionRaw(date=arr[0], ticker=arr[1], direction=arr[2], price=arr[3])

@@ -42,10 +42,14 @@ def get_file_list(ticker_dir, skip_file=None):
     file_list = [ticker_dir + l for l in os.listdir(ticker_dir) if l != skip_file]
     return file_list
 
+def test_transaction(file_path, props):
+    from api.jobs.transaction_list import TransactionList
+    tl = TransactionList(file_path, props)
 
 if __name__ == '__main__':
     ticker_dir = '..\\tickers\\under_5\\'
-    file_list = get_file_list(ticker_dir, "basic_materials_under_5.txt")
+    file_list = get_file_list(ticker_dir, skip_file="basic_materials_under_5.txt")
     props = read_properties('..\\secrets\\credentials.properties')
-    generate_reports(file_list, props, ticker_dir)
+    #generate_reports(file_list, props, ticker_dir)
+    test_transaction('..\\transaction\\transaction.log', props)
     # test_report(['CC'], props)
