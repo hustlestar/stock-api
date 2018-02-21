@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 from api.analytics.report import get_interesting_stocks, analyze
-from api.etl.transform.parsers import get_ticker_list
+from api.etl.transform.parsers import get_ticker_list, parse_alpha_vantage_json_to_stock
 from api.jobs.stock_list import StockList
 
 
@@ -46,10 +46,19 @@ def test_transaction(file_path, props):
     from api.jobs.transaction_list import TransactionList
     tl = TransactionList(file_path, props)
 
+def test_plotting(props):
+    from api.etl.extract.data_source import get_data_alpha_vantage
+    from api.etl.transform.plotting import plot_chart
+    stock_data = get_data_alpha_vantage('AAPL', props)
+    stock_raw = parse_alpha_vantage_json_to_stock(stock_data)
+    plot_chart(stock_raw, '..\\charts\\')
+    pass
+
 if __name__ == '__main__':
     ticker_dir = '..\\tickers\\under_5\\'
     file_list = get_file_list(ticker_dir, skip_file="basic_materials_under_5.txt")
     props = read_properties('..\\secrets\\credentials.properties')
+    test_plotting(props)
     #generate_reports(file_list, props, ticker_dir)
-    test_transaction('..\\transaction\\transaction.log', props)
+    #test_transaction('..\\transaction\\transaction.log', props)
     # test_report(['CC'], props)
