@@ -1,17 +1,22 @@
+from mysql.connector.errors import IntegrityError
+
 from db_storage import db
 
 
 def save_to_stock_history(stock_raw, props):
     con = db.Connection(props)
     data_ = stock_raw.daily_data[0]
-    con.insert(props.get('db.database') + '.' + 'stock_history',
-               stock_raw.ticker,
-               data_.date,
-               data_.open_,
-               data_.high_,
-               data_.low_,
-               data_.close_,
-               data_.volume_)
+    try:
+        con.insert(props.get('db.database') + '.' + 'stock_history',
+                   stock_raw.ticker,
+                   data_.date,
+                   data_.open_,
+                   data_.high_,
+                   data_.low_,
+                   data_.close_,
+                   data_.volume_)
+    except IntegrityError:
+        print 'Duplicate entry for ' + stock_raw.ticker + ' ' + data_.date
 
 
 def save_transaction_history(transaction_raw, props):

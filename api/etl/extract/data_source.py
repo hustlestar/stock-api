@@ -1,17 +1,30 @@
 import requests
 
-# TODO: Make a class
+
+class AlphaVantageAPI:
+    def __init__(self, props):
+        self.api_key = props.get('api.key')
+        self.file_format = props.get('file.format')
+
+    def get_data_for_ticker(self, ticker):
+        url = "https://www.alphavantage.co/query?" + \
+              "function=TIME_SERIES_DAILY&" + \
+              "symbol={0}&".format(ticker) + \
+              "datatype={0}&".format(self.file_format) + \
+              "apikey={0}".format(self.api_key)
+        response = requests.get(url)
+        html = response.content
+        return html
+
+
 def get_data_alpha_vantage(ticker, props):
     url = "https://www.alphavantage.co/query?" + \
           "function=TIME_SERIES_DAILY&" + \
           "symbol={0}&".format(ticker) + \
           "datatype={0}&".format(props.get('file.format')) + \
           "apikey={0}".format(props.get('api.key'))
-    #response = urllib2.urlopen(url)
     response = requests.get(url)
-    #html = response.read()
     html = response.content
-    # print html
     return html
 
 

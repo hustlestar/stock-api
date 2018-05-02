@@ -33,7 +33,7 @@ class Connection(object):
             else:
                 stmt = stmt + str(val) + ", "
         stmt = stmt[:-2] + ');'
-        print stmt
+        #print stmt
         self.cursor.execute(stmt)
         self.commit()
 
