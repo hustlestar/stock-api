@@ -1,8 +1,8 @@
-from api.entity.stock_processed import StockProcessed
-from api.etl.extract.data_source import get_data_alpha_vantage, AlphaVantageAPI
-from api.etl.transform.no_data_exception import NoDataException
-from api.etl.transform.parsers import parse_alpha_vantage_json_to_stock
-from api.etl.load.to_mysql import save_to_stock_history
+from entity.stock_processed import StockProcessed
+from etl.extract.data_source import get_data_alpha_vantage, AlphaVantageAPI
+from etl.transform.no_data_exception import NoDataException
+from etl.transform.parsers import parse_alpha_vantage_json_to_stock
+from etl.load.to_mysql import save_to_stock_history
 
 
 class StockList:

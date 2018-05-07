@@ -1,7 +1,7 @@
-from api.entity.transaction_processed import TransactionProcessed
-from api.etl.extract.data_source import read_transaction_log
-from api.etl.transform.parsers import parse_line_to_transaction
-from api.etl.load.to_mysql import save_transaction_history
+from entity.transaction_processed import TransactionProcessed
+from etl.extract.data_source import read_transaction_log
+from etl.transform.parsers import parse_line_to_transaction
+from etl.load.to_mysql import save_transaction_history
 
 
 class TransactionList(object):

@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+
 import os
 from datetime import datetime
 
-from api.analytics.report import get_interesting_stocks, analyze
-from api.etl.transform.parsers import get_ticker_list, parse_alpha_vantage_json_to_stock
-from api.jobs.stock_list import StockList
+from analytics.report import get_interesting_stocks, analyze
+from etl.transform.parsers import get_ticker_list, parse_alpha_vantage_json_to_stock
+from jobs.stock_list import StockList
 
 
 def generate_reports(file_list, props, file_prefix):
@@ -39,11 +41,11 @@ def read_properties(rel_file_path):
 
 
 def get_file_list(ticker_dir, skip_file=None):
-    file_list = [ticker_dir + l for l in os.listdir(ticker_dir) if l != skip_file]
+    file_list = [os.path.join(ticker_dir, file_name) for file_name in os.listdir(ticker_dir) if file_name != skip_file]
     return file_list
 
 def test_transaction(file_path, props):
-    from api.jobs.transaction_list import TransactionList
+    from jobs.transaction_list import TransactionList
     tl = TransactionList(file_path, props)
 
 #def test_plotting(props):
@@ -55,9 +57,12 @@ def test_transaction(file_path, props):
     #pass
 
 if __name__ == '__main__':
-    ticker_dir = '..\\tickers\\under_5\\'
-    file_list = get_file_list(ticker_dir, skip_file="basic_materials_under_5.txt")
-    props = read_properties('..\\secrets\\credentials.properties')
+    ticker_dir = '../tickers/under_5/'
+    ticker_dir = os.path.normpath(ticker_dir)
+    print(ticker_dir)
+    file_list = get_file_list(ticker_dir)
+    #props = read_properties('../secrets/credentials.properties')
+    props ={}
     # test_plotting(props)
     generate_reports(file_list, props, ticker_dir)
     #test_transaction('..\\transaction\\transaction.log', props)
