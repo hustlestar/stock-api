@@ -1,0 +1,12 @@
+version: '3'
+services:
+  back:
+    build: ./back
+    ports:
+     - "5000:5000"
+     depends:
+      database
+  database:
+    build: ./database
+    ports:
+      - "3306:3306"

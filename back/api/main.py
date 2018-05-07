@@ -61,8 +61,8 @@ if __name__ == '__main__':
     ticker_dir = os.path.normpath(ticker_dir)
     print(ticker_dir)
     file_list = get_file_list(ticker_dir)
-    #props = read_properties('../secrets/credentials.properties')
-    props ={}
+    props = read_properties('../secrets/credentials.properties')
+    #props ={}
     # test_plotting(props)
     generate_reports(file_list, props, ticker_dir)
     #test_transaction('..\\transaction\\transaction.log', props)

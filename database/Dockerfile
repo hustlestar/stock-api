@@ -1,0 +1,14 @@
+FROM mysql:5.5.60
+
+ENV SECRETS_PATH /run/secrets
+
+ENV MYSQL_ROOT_PASSWORD_FILE $SECRETS_PATH/mysql-root-password
+ENV MYSQL_DATABASE_FILE      $SECRETS_PATH/mysql-database
+ENV MYSQL_USER_FILE          $SECRETS_PATH/mysql-user
+ENV MYSQL_PASSWORD_FILE      $SECRETS_PATH/mysql-password
+
+COPY ./secrets $SECRETS_PATH/
+
+COPY ./scripts /docker-entrypoint-initdb.d/
+
+EXPOSE 3306
