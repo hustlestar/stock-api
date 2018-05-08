@@ -1,4 +1,5 @@
 FROM python:2.7.14-slim
+MAINTAINER Jack Malashchytski <hustlequeen@mail.ru>
 
 #RUN apt-get update \
 #&& apt-get install -y wget

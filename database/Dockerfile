@@ -1,4 +1,5 @@
 FROM mysql:5.5.60
+MAINTAINER Jack Malashchytski <hustlequeen@mail.ru>
 
 ENV SECRETS_PATH /run/secrets
 
@@ -10,5 +11,8 @@ ENV MYSQL_PASSWORD_FILE      $SECRETS_PATH/mysql-password
 COPY ./secrets $SECRETS_PATH/
 
 COPY ./scripts /docker-entrypoint-initdb.d/
+
+RUN mkdir -p /var/lib/mysql
+VOLUME /var/lib/mysql
 
 EXPOSE 3306

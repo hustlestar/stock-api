@@ -1,1 +1,10 @@
-SHOW TABLES;
+CREATE TABLE `stock_history` (
+`SH_TICKER` varchar(5) NOT NULL,
+`SH_DATE` date NOT NULL,
+`OPEN` double NOT NULL,
+`HI` double NOT NULL,
+`LO` double NOT NULL,
+`CLOSE` double NOT NULL,
+`VOL` int(11) NOT NULL,
+PRIMARY KEY (`SH_TICKER`,`SH_DATE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
