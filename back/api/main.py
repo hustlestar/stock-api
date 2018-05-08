@@ -8,20 +8,24 @@ from etl.transform.parsers import get_ticker_list, parse_alpha_vantage_json_to_s
 from jobs.stock_list import StockList
 
 
-def generate_reports(file_list, props, file_prefix):
+def generate_reports(file_list, props):
+    history_dir = os.path.normpath('../history/')
+    if not os.path.exists(history_dir):
+        os.mkdir(history_dir)
+    history_day_dir = os.path.normpath(os.path.join(history_dir, datetime.now().strftime("%Y-%m-%d")))
+    if not os.path.exists(history_day_dir):
+        os.mkdir(history_day_dir)
     for f in file_list:
         tickers = get_ticker_list(f)
+        file_name = os.path.basename(f)
         stock_list = StockList(tickers, props)
         # for stock in stock_list.stocks:
         #     analyze(stock)
         interesting_stocks = get_interesting_stocks(stock_list.stocks_processed,
                                                     number_of_volume_spikes=3,
                                                     max_day_range=0.2)
-        hist_path = os.path.normpath(os.path.join(file_prefix, '../history/'))
-        if not os.path.exists(hist_path):
-            os.mkdir(hist_path)
         replace_with = '_' + datetime.now().strftime("%Y-%m-%d") + '.txt'
-        with open(hist_path.replace('.txt', replace_with), 'w') as out:
+        with open(os.path.join(history_day_dir, file_name).replace('.txt', replace_with), 'w') as out:
             for stock in interesting_stocks:
                 out.write(str(stock))
         for stock in interesting_stocks:
@@ -67,13 +71,12 @@ def test_transaction(file_path, props):
 if __name__ == '__main__':
     ticker_dir = '../tickers/under_5/'
     ticker_dir = os.path.normpath(ticker_dir)
-    print(ticker_dir)
     file_list = get_file_list(ticker_dir)
     secrets_path = '../secrets/credentials.properties'
     secrets_path = os.path.normpath(secrets_path)
     props = read_properties(secrets_path)
     # props ={}
     # test_plotting(props)
-    generate_reports(file_list, props, ticker_dir)
+    generate_reports(file_list, props)
     # test_transaction('..\\transaction\\transaction.log', props)
     # test_report(['CC'], props)
