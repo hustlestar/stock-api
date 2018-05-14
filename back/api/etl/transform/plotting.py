@@ -26,5 +26,6 @@ def plot_chart(stock_raw, save_to_dir):
 
     fig['data'].append(dict(x=dates, y=[d.volume_ for d in stock_raw.daily_data],
                             type='bar', yaxis='y', name='Volume'))
-    plotly.offline.plot(fig, filename=save_to_dir + stock_raw.ticker + '.html', validate = False)
+    #plotly.offline.plot(fig, filename=save_to_dir + stock_raw.ticker + '.html', validate = False)
+    return plotly.offline.plot(fig, validate = False, output_type='div', auto_open=False)
     # plotly.plotly.plot(data, filename='simple_candlestick')
