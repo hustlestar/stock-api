@@ -1,6 +1,8 @@
 import requests
 
+from decorators import singleton
 
+@singleton
 class AlphaVantageAPI:
     def __init__(self, props):
         self.api_key = props.get('api.key')

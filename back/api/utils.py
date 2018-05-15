@@ -2,18 +2,23 @@ import os
 from datetime import datetime
 
 from analytics.report import get_interesting_stocks
-from etl.transform.parsers import get_ticker_list
+from etl.transform.parsers import get_ticker_list, parse_alpha_vantage_json_to_stock
 from jobs.stock_list import StockList
 
+CACHED_PROPERTIES_FILES = []
+PROPS = {}
 
 def read_properties(rel_file_path):
-    props = {}
-    with open(rel_file_path, 'r') as property_file:
-        lines = property_file.readlines()
-    for line in lines:
-        k, v = line.split('=')
-        props[k] = v.strip()
-    return props
+    global CACHED_PROPERTIES_FILES
+    global PROPS
+    if rel_file_path not in CACHED_PROPERTIES_FILES:
+        with open(rel_file_path, 'r') as property_file:
+            lines = property_file.readlines()
+        for line in lines:
+            k, v = line.split('=')
+            PROPS[k.strip()] = v.strip()
+        CACHED_PROPERTIES_FILES.append(rel_file_path)
+    return PROPS
 
 
 def get_file_list(ticker_dir, skip_file=None):
@@ -43,3 +48,15 @@ def generate_reports(file_list, props):
                 out.write(str(stock))
         for stock in interesting_stocks:
             print stock.stock_raw.ticker
+
+def get_stock_raw(ticker, props):
+    from etl.extract.data_source import AlphaVantageAPI
+    alpha_vantage_api = AlphaVantageAPI(props)
+    stock_data = alpha_vantage_api.get_data_for_ticker(ticker)
+    stock_raw = parse_alpha_vantage_json_to_stock(stock_data)
+    return stock_raw
+
+def get_chart_for(stock_raw, props):
+    from etl.transform.plotting import Plotter
+    plotter = Plotter(props)
+    return plotter.plot_chart(stock_raw)

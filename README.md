@@ -15,6 +15,8 @@ db.password=
 db.host=database
 db.port=3306
 db.database=
+plotly.user=
+plotly.key=
 ```
 
 Create ./database/secrets/ with following files

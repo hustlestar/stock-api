@@ -21,10 +21,11 @@ def test_transaction(file_path, props):
 
 def test_plotting(props):
     from etl.extract.data_source import get_data_alpha_vantage
-    from etl.transform.plotting import plot_chart
+    from etl.transform.plotting import Plotter
+    plotter = Plotter(props)
     stock_data = get_data_alpha_vantage('LHO', props)
     stock_raw = parse_alpha_vantage_json_to_stock(stock_data)
-    return plot_chart(stock_raw, '../charts/')
+    return plotter.plot_chart(stock_raw)
 
 
 if __name__ == '__main__':
@@ -33,9 +34,9 @@ if __name__ == '__main__':
     file_list = get_file_list(ticker_dir)
     secrets_path = '../secrets/credentials.properties'
     secrets_path = os.path.normpath(secrets_path)
-    props = read_properties(secrets_path)
+    PROPS = read_properties(secrets_path)
     # props ={}
     # test_plotting(props)
-    generate_reports(file_list, props)
+    generate_reports(file_list, PROPS)
     # test_transaction('..\\transaction\\transaction.log', props)
     # test_report(['CC'], props)
