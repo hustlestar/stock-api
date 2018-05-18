@@ -12,6 +12,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-WORKDIR /home/jack/api
+WORKDIR /home/jack/
 
-CMD ["python", "main.py"]
+CMD ["python", "run.py"]

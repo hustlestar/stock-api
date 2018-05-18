@@ -4,3 +4,5 @@ plotly
 Flask
 flask-wtf
 flask-sqlalchemy
+flask-bcrypt
+flask-login
