@@ -2,3 +2,5 @@ mysql-connector==2.1.4
 requests
 plotly
 Flask
+flask-wtf
+flask-sqlalchemy
