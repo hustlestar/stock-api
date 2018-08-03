@@ -1,29 +1,24 @@
 import os
 
+import flask_login
+from api import app, db, bcrypt, utils, props
+from api import forms
+from api import utils
+from api.user_db import models
 from flask import render_template, flash, url_for, request
 from markupsafe import Markup
 from werkzeug.utils import redirect
 
-from user_db.models import User
-import forms
-import utils
-from api import app, db, bcrypt
-import flask_login
-
-
 @app.route('/')
 @app.route('/home')
 def home():
+    print "Nihuia"
     return render_template("home.html")
 
 
 # @login_required
 @app.route('/plot')
 def get_ticker():
-    secrets_path = '../secrets/credentials.properties'
-    secrets_path = os.path.normpath(secrets_path)
-    props = utils.read_properties(secrets_path)
-
     stock_raw = utils.get_stock_raw('AAPL', props)
     chart_div = utils.get_chart_for(stock_raw, props)
 
@@ -38,7 +33,7 @@ def sign_up():
     form = forms.SignUpForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = models.User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -54,7 +49,7 @@ def sign_in():
         return redirect(url_for('home'))
     form = forms.SignInForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = models.User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             flask_login.login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')

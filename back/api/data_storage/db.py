@@ -1,5 +1,5 @@
 import mysql.connector as connector
-import etl.extract.data_source
+from api.etl.extract import data_source
 
 
 class Connection(object):

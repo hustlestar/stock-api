@@ -1,6 +1,6 @@
 import requests
 
-from decorators import singleton
+from api.decorators import singleton
 
 @singleton
 class AlphaVantageAPI:

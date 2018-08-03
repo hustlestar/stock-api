@@ -3,6 +3,8 @@ services:
   back:
     container_name: back
     build: ./back
+    networks:
+      - default
     ports:
      - "5000:5000"
     depends_on:

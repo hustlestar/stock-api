@@ -1,7 +1,7 @@
 import plotly
 from plotly import graph_objs
 
-from decorators import singleton
+from api.decorators import singleton
 
 
 @singleton
