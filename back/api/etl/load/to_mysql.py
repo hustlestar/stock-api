@@ -1,6 +1,6 @@
 from mysql.connector.errors import IntegrityError
 
-from api.data_storage import db
+from api.data_storage import mysql_storage as db
 
 
 def save_to_stock_history(stock_raw, props):

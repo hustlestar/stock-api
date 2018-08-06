@@ -10,6 +10,8 @@ WORKDIR /home/jack/
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
+RUN apt-get install libmysqlclient-dev
+
 COPY . .
 
 WORKDIR /home/jack/

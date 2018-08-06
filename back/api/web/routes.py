@@ -28,6 +28,7 @@ def get_ticker():
 @app.route('/register', methods=['GET', 'POST'])
 @app.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
+    print db.metadata.tables.keys()
     if flask_login.current_user.is_authenticated:
         return redirect(url_for('home'))
     form = forms.SignUpForm()
@@ -45,11 +46,13 @@ def sign_up():
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
+    print db.metadata.tables.keys()
     if flask_login.current_user.is_authenticated:
         return redirect(url_for('home'))
     form = forms.SignInForm()
     if form.validate_on_submit():
         user = models.User.query.filter_by(email=form.email.data).first()
+        #print(models.User.query.all())
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             flask_login.login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')

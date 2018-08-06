@@ -1,4 +1,4 @@
-FROM mysql:5.5.60
+FROM mysql:5.6.41
 MAINTAINER Jack Malashchytski <hustlequeen@mail.ru>
 
 ENV SECRETS_PATH /run/secrets
