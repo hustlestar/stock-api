@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if list %}
+    <div class="">
+        {% for item in list %}
+            <span>{{ item }}</span>
+        {% endfor %}
+    </div>
+    {% else %}
+        <span>Nothing to show</span>
+    {% endif %}
+{% endblock content %}

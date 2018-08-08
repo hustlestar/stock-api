@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = "fuckall"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:pass@localhost/stock_db'
 
 db = SQLAlchemy(app)
-#db.create_all()
+db.create_all()
 
 bcrypt = Bcrypt(app)
 
