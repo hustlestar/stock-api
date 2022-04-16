@@ -1,1 +1,25 @@
-<mxfile host="app.diagrams.net" modified="2022-04-16T15:36:03.496Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36" version="17.4.5" etag="6KnGFnVUeN10zcrPFi-X" type="github"><diagram id="pnIjwxI_Tz_79M_DOfc0">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-04-16T15:40:56.635Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36" etag="uRYQykKC3R1y-62BB10z" version="17.4.5" type="github">
+  <diagram id="pnIjwxI_Tz_79M_DOfc0" name="Page-1">
+    <mxGraphModel dx="907" dy="612" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UN_mXbnfMYuPQ3JKQMYS-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="UN_mXbnfMYuPQ3JKQMYS-1" target="UN_mXbnfMYuPQ3JKQMYS-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UN_mXbnfMYuPQ3JKQMYS-1" value="Python Script Collects History Data As Json Files" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UN_mXbnfMYuPQ3JKQMYS-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UN_mXbnfMYuPQ3JKQMYS-2" target="UN_mXbnfMYuPQ3JKQMYS-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UN_mXbnfMYuPQ3JKQMYS-2" value="Java Bot App Takes CLI Arguments that will run replay" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="365" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UN_mXbnfMYuPQ3JKQMYS-5" value="Method reads data from history and feeds into bot, thus replaying real data from Exchange API" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="565" y="250" width="235" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
